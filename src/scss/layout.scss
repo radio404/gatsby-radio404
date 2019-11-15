@@ -1,0 +1,119 @@
+
+@import "~normalize.css";
+@import "containers";
+
+html,body{
+  //font-family: sans-serif;
+  font-size:18px;
+}
+
+html { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+  html { font-family: 'Inter var', sans-serif; }
+}
+
+.site-header{
+  @include container;
+  position: relative;
+  &__logo{
+    margin: -30px 0 0 37px;
+    position: relative;
+    img,&:before{
+      display: block;
+      border-radius: 100%;
+      position: relative;
+    }
+    &:before{
+      content:'';
+      width:700px;
+      height:700px;
+      background:black;
+      position: absolute;
+      transform: translate(-200px,-200px);
+    }
+    &,img{
+      width:300px;
+      height:300px;
+    }
+    img{
+      background:#fff;
+    }
+    span{
+      display: none;
+    }
+  }
+}
+
+.player{
+  button{
+    display: block;
+    border: none;
+    padding: 0;
+    &:focus{
+      outline: none;
+      &:after{
+        content:'';
+        display: block;
+        width:100%;
+        height:100%;
+        position: absolute;
+        top:-20px;
+        left:-20px;
+        border:solid 20px transparentize(#f00,.5);
+        border-radius: 100%;
+      }
+    }
+  }
+  &__buttons{
+    position: absolute;
+    left:300px;
+  }
+}
+
+.play-button{
+  position: absolute;
+  display: block;
+  background:#fff;
+  border-radius: 100%;
+  width:54px;
+  height:54px;
+  transform: translate(-46px, -25px);
+  color:#000;
+  &:before{
+    position: relative;
+    content:'▶️';
+    font-family: 'icomoon';
+    font-size:40.5px;
+    line-height: 1em;
+    margin: 1px 0 0 8px;
+    display: block;
+  }
+  &.playing{
+    &:before{
+      content:'⏸';
+      margin: 1px 0 0;
+    }
+  }
+}
+
+.now-playing{
+  background:#fff;
+  width:300px;
+  height:76px;
+  padding: 16px 76px 16px 16px;
+  position: relative;
+  margin: 8px 0 0;
+  transform-origin: top left;
+  transform: rotate(8deg);
+  &__track, &__artist{
+    width:100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 22px;
+    height:22px;
+  }
+  &__artist{
+    font-weight: 900;
+  }
+}
