@@ -5,6 +5,7 @@
   "version": "0.1.0",
   "author": "Kyle Mathews <mathews.kyle@gmail.com>",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "gatsby": "^2.15.28",
     "gatsby-image": "^2.2.23",
     "gatsby-plugin-manifest": "^2.2.20",
@@ -14,6 +15,7 @@
     "gatsby-plugin-sharp": "^2.2.27",
     "gatsby-plugin-web-font-loader": "^1.0.4",
     "gatsby-source-filesystem": "^2.1.28",
+    "gatsby-source-wordpress": "^3.1.48",
     "gatsby-transformer-sharp": "^2.2.19",
     "node-sass": "^4.12.0",
     "normalize.css": "^8.0.1",
