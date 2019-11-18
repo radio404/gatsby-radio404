@@ -88,7 +88,7 @@ class Player extends React.Component {
   }
   onVolumeDown(e){
     const self = this,
-      audio = this.audio.current,
+      audio = self.audio.current,
       position = getElementPosition(e.currentTarget,true),
       isTouch = e.type !== 'mousedown',
       eventMove = isTouch ? 'touchmove':'mousemove',
@@ -96,15 +96,14 @@ class Player extends React.Component {
     let volume;
 
     function getVolumeFromXY(clientX,clientY){
-      const relX = position.left-clientX,
-            relY = position.top-clientY;
+      const relY = position.top-clientY;
       let v = 1-relY/-100;
-      console.log('getVolumeFromXY',v,relX,relY);
       return Math.max(0,Math.min(v,1));
     }
 
     function onMouseMove(e){
       e.preventDefault();
+      e.stopPropagation();
       const target = isTouch ? e.touches[0] :e;
       volume = getVolumeFromXY(target.clientX,target.clientY);
       if(volume>=0 && volume<=1){
