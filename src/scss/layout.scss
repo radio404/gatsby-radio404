@@ -69,14 +69,21 @@ html { font-family: 'Inter', sans-serif; }
   }
 
   &__volume{
-    position: absolute;
-    width:20px;
-    height:100px;
     left:324px;
     top:-36px;
     border-left:solid 4px #fff;
     transform: rotate(26deg);
+    &, &__zone{
+      position: absolute;
+      width:20px;
+      height:100px;
+    }
+    &__zone{
+      left:0;
+      left:-4px;
+    }
     &:before,&__value{
+      pointer-events: none;
       content:'';
       display: block;
       position: absolute;

@@ -1,4 +1,5 @@
 import React from "react"
+import getElementPosition from "../utils/get-element-position";
 
 class Player extends React.Component {
 
@@ -86,21 +87,25 @@ class Player extends React.Component {
     console.log('clickMute',muted);
   }
   onVolumeDown(e){
-    var self = this,
+    const self = this,
       audio = this.audio.current,
+      position = getElementPosition(e.currentTarget,true);
+    let
       volume = getVolumeFromXY(e.clientX,e.clientY);
 
-    function getVolumeFromXY(x,y){
-      var vy = (333-y)/88 ,
-          vx = .1*(x-304-vy*44)/18,
-          v = vx + vy;
+    function getVolumeFromXY(clientX,clientY){
+      const relX = position.left-clientX,
+            relY = position.top-clientY;
+      let v = 1-relY/-100;
+      console.log('getVolumeFromXY',v,relX,relY);
       return Math.max(0,Math.min(v,1));
     }
 
     function onMouseMove(e){
       e.preventDefault();
+      //console.log(postion,e.clientX,e.clientY);
+      //if(volume)
       volume = getVolumeFromXY(e.clientX,e.clientY);
-      //console.log('onMouseMove',volume);
       audio.volume = volume;
       self.setState({volume:volume});
     }
@@ -128,8 +133,10 @@ class Player extends React.Component {
         <button type="button" className={`${this.state.muted?'muted':''} mute-button player__button--icon`} onClick={this.clickMute.bind(this)} />
       </div>
 
-      <div className="player__volume" onMouseDown={this.onVolumeDown.bind(this)}>
-        <div className="player__volume__value" style={{height:`${100*Math.round(this.state.volume*13)/13}%`}}/>
+      <div className="player__volume">
+        <div className="player__volume__zone" onMouseDown={this.onVolumeDown.bind(this)}>
+          <div className="player__volume__value" style={{height:`${100*Math.round(this.state.volume*13)/13}%`}}/>
+        </div>
       </div>
 
       <div className="cover">
