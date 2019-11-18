@@ -88,8 +88,7 @@ class Player extends React.Component {
   onVolumeDown(e){
     var self = this,
       audio = this.audio.current,
-      currentTarget = e.currentTarget,
-        volume = getVolumeFromXY(e.clientX,e.clientY);
+      volume = getVolumeFromXY(e.clientX,e.clientY);
 
     function getVolumeFromXY(x,y){
       var vy = (333-y)/88 ,

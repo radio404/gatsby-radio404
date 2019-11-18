@@ -42,6 +42,7 @@ module.exports = {
         hostingWPCOM: false,
         // does your site use the Advanced Custom Fields Plugin?
         useACF: true,
+        acfOptionPageIds:['options_radio'],
         // JWT access
         auth:{
           jwt_user: env.WP_APP_USER,
