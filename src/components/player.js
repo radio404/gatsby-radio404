@@ -24,7 +24,7 @@ class Player extends React.Component {
 
   refreshNowPlaying(){
     const self = this;
-    fetch(`https://www.radioking.com/widgets/api/v1/radio/${this.props.radioking_radio_id}/track/current`,{})
+    fetch(`${this.props.radioking_api_endpoint}/radio/${this.props.radioking_radio_id}/track/current`,{})
       .then((res)=>res.json())
       .then((json)=>{
         console.log(json);
@@ -67,7 +67,7 @@ class Player extends React.Component {
       vote:true
     })
     // le vote ne marche pas. regarder les CORS policies et sec fetch
-    fetch(`https://www.radioking.com/widgets/api/v1/radio/${this.props.radioking_radio_id}/track/vote`,{
+    fetch(`${this.props.radioking_api_endpoint}/radio/${this.props.radioking_radio_id}/track/vote`,{
       method:'POST',
       dataType:'json',
       body:{vote:1}
@@ -115,8 +115,14 @@ class Player extends React.Component {
   }
 
   render(){
+    const props = this.props,
+      stream_src = props.radioking_mp3_stream_url
+      .replace("{id_radio}",props.radioking_radio_id)
+      .replace("{id_stream}",props.radioking_stream_hd_id)
+    ;
+    console.log(stream_src);
     return (<div className="player">
-      <audio ref={this.audio} src={`https://listen.radioking.com/radio/${this.props.radioking_radio_id}/stream/${this.props.radioking_stream_hd_id}`} autoPlay={false} />
+      <audio ref={this.audio} src={stream_src} autoPlay={false} />
       <div className="player__buttons">
         <button type="button" className={`${this.state.playing?'playing':''} play-button player__button--icon`} onClick={this.clickPlay.bind(this)} />
         <button type="button" className={`${this.state.muted?'muted':''} mute-button player__button--icon`} onClick={this.clickMute.bind(this)} />
