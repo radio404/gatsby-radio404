@@ -13,6 +13,7 @@ class Player extends React.Component {
       album:'',
       cover:'',
       like:'todo',
+      volume:1,
       muted:false,
       vote:false,
     };
@@ -41,7 +42,6 @@ class Player extends React.Component {
           cover:json.cover,
           album:json.album,
           vote:vote,
-          volume:1
         });
       })
   }
@@ -89,9 +89,11 @@ class Player extends React.Component {
   onVolumeDown(e){
     const self = this,
       audio = this.audio.current,
-      position = getElementPosition(e.currentTarget,true);
-    let
-      volume = getVolumeFromXY(e.clientX,e.clientY);
+      position = getElementPosition(e.currentTarget,true),
+      isTouch = e.type !== 'mousedown',
+      eventMove = isTouch ? 'touchmove':'mousemove',
+      eventUp = isTouch ? 'touchend':'mouseup';
+    let volume;
 
     function getVolumeFromXY(clientX,clientY){
       const relX = position.left-clientX,
@@ -103,19 +105,20 @@ class Player extends React.Component {
 
     function onMouseMove(e){
       e.preventDefault();
-      //console.log(postion,e.clientX,e.clientY);
-      //if(volume)
-      volume = getVolumeFromXY(e.clientX,e.clientY);
-      audio.volume = volume;
-      self.setState({volume:volume});
+      const target = isTouch ? e.touches[0] :e;
+      volume = getVolumeFromXY(target.clientX,target.clientY);
+      if(volume>=0 && volume<=1){
+        audio.volume = volume;
+        self.setState({volume:volume});
+      }
     }
     function onMouseUp(e){
       //console.log('onMouseUp');
-      window.removeEventListener('mousemove',onMouseMove);
-      window.removeEventListener('mouseup',onMouseUp);
+      window.removeEventListener(eventMove,onMouseMove);
+      window.removeEventListener(eventUp,onMouseUp);
     }
-    window.addEventListener('mousemove',onMouseMove)
-    window.addEventListener('mouseup',onMouseUp)
+    window.addEventListener(eventMove,onMouseMove)
+    window.addEventListener(eventUp,onMouseUp)
     onMouseMove(e);
   }
 
@@ -134,7 +137,7 @@ class Player extends React.Component {
       </div>
 
       <div className="player__volume">
-        <div className="player__volume__zone" onMouseDown={this.onVolumeDown.bind(this)}>
+        <div className="player__volume__zone" onMouseDown={this.onVolumeDown.bind(this)} onTouchStart={this.onVolumeDown.bind(this)}>
           <div className="player__volume__value" style={{height:`${100*Math.round(this.state.volume*13)/13}%`}}/>
         </div>
       </div>

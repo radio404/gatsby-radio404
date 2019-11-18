@@ -12,6 +12,11 @@ html { font-family: 'Inter', sans-serif; }
   html { font-family: 'Inter var', sans-serif; }
 }
 
+.site{
+  overflow: hidden;
+  min-height: 100vh;
+}
+
 .site-header{
   @include container;
   position: relative;
@@ -132,13 +137,13 @@ html { font-family: 'Inter', sans-serif; }
   background: none;
 
   &:before {
-    content: '🔈️';
+    content: "\1f514";
     margin: 1px 0 0;
   }
 
   &.muted {
     &:before {
-      content: '🔇';
+      content: "\1f515";
     }
   }
 }
@@ -159,7 +164,7 @@ html { font-family: 'Inter', sans-serif; }
   margin: auto;
   text-align: center;
   &:before{
-    content:'🖤️️';
+    content: "\2665";
     margin: 1px 0 0;
   }
 }
@@ -186,8 +191,8 @@ html { font-family: 'Inter', sans-serif; }
   }
   &__cover{
     position: absolute;
-    width:128px;
-    height:128px;
+    width:200px;
+    height:200px;
     background: #808080;
     top:105px;
     left:20px;
