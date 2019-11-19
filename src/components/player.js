@@ -1,4 +1,6 @@
 import React from "react"
+import {Howl} from "howler"
+import PlayerLabel from "./player-label";
 import getElementPosition from "../utils/get-element-position";
 
 class Player extends React.Component {
@@ -16,19 +18,32 @@ class Player extends React.Component {
       muted:false,
       vote:false,
     };
-    this.audio = React.createRef();
   }
 
   componentDidMount() {
+    const props = this.props,
+      stream_src = props.radioking_mp3_stream_url
+        .replace("{id_radio}",props.radioking_radio_id)
+        .replace("{id_stream}",props.radioking_stream_hd_id)
+    ;
+    console.log(stream_src);
+    this.audio = new Howl({
+      src: [stream_src],
+      format: ['mp3'],
+      html5: true,
+      autoplay:true,
+      preload:false,
+      volume:1
+    });
+
     this.refreshNowPlaying();
   }
 
   refreshNowPlaying(){
     const self = this;
-    fetch(`${this.props.radioking_api_endpoint}/radio/${this.props.radioking_radio_id}/track/current`,{})
+    fetch(`${this.props.radioking_api_endpoint}/radio/${this.props.radioking_radio_id}/track/current`)
       .then((res)=>res.json())
       .then((json)=>{
-        console.log(json);
         let next_track = json.next_track,
             timeout = Math.min(8 * 60000,Math.max(5000,new Date(next_track) - new Date()));
         setTimeout(self.refreshNowPlaying.bind(self),timeout);
@@ -46,20 +61,21 @@ class Player extends React.Component {
   }
 
   clickPlay(){
-    const audio = this.audio.current,
-          paused = audio.paused;
-    if(paused !== this.state.playing){
-      this.setState({
-        playing:paused
-      })
-      if(paused){
-        audio.play()
-      }else{
-        audio.pause();
-        console.log(audio)
-      }
+    const audio = this.audio,
+          playing = audio.playing(),
+          state = audio.state();
+    if(state === 'unloaded'){
+        audio.load();
     }
-    console.log('clickPlay',[this.audio.current],this.state.playing);
+    this.setState({
+      playing:!playing
+    })
+    if(playing){
+      audio.pause();
+    }else{
+      audio.play();
+    }
+    console.log('clickPlay',audio,state,playing,this.state.playing);
   }
   clickLike(){
     console.log('clickLike');
@@ -75,19 +91,17 @@ class Player extends React.Component {
 
   }
   clickMute(){
-    const audio = this.audio.current,
-      muted = audio.muted;
-    if(muted === this.state.muted){
-      this.setState({
-        muted:!muted
-      })
-      audio.muted = !muted;
-    }
-    console.log('clickMute',muted);
+    const audio = this.audio,
+    muted = this.state.muted;
+    this.setState({
+      muted:!muted
+    })
+    audio.mute(!muted);
+    console.log('clickMute',!muted);
   }
   onVolumeDown(e){
     const self = this,
-      audio = self.audio.current,
+      audio = self.audio,
       position = getElementPosition(e.currentTarget,true),
       isTouch = e.type !== 'mousedown',
       eventMove = isTouch ? 'touchmove':'mousemove',
@@ -106,7 +120,7 @@ class Player extends React.Component {
       const target = isTouch ? e.touches[0] :e;
       volume = getVolumeFromXY(target.clientX,target.clientY);
       if(volume>=0 && volume<=1){
-        audio.volume = volume;
+        audio.volume(volume);
         self.setState({volume:volume});
       }
     }
@@ -121,14 +135,8 @@ class Player extends React.Component {
   }
 
   render(){
-    const props = this.props,
-      stream_src = props.radioking_mp3_stream_url
-      .replace("{id_radio}",props.radioking_radio_id)
-      .replace("{id_stream}",props.radioking_stream_hd_id)
-    ;
-    console.log(stream_src);
     return (<div className="player">
-      <audio ref={this.audio} src={stream_src} autoPlay={false} />
+
       <div className="player__buttons">
         <button type="button" className={`${this.state.playing?'playing':''} play-button player__button--icon`} onClick={this.clickPlay.bind(this)} />
         <button type="button" className={`${this.state.muted?'muted':''} mute-button player__button--icon`} onClick={this.clickMute.bind(this)} />
@@ -145,8 +153,8 @@ class Player extends React.Component {
       </div>
 
       <div className="now-playing">
-        <div className={`now-playing__track`} title={this.state.track}>{this.state.track}</div>
-        <div className={`now-playing__artist`} title={this.state.artist}>{this.state.artist}</div>
+        <PlayerLabel className={`now-playing__track`} title={this.state.track}>{this.state.track}</PlayerLabel>
+        <PlayerLabel className={`now-playing__artist`} title={this.state.artist}>{this.state.artist}</PlayerLabel>
         <button type="button" disabled={this.state.vote?'disabled':false} className={`like-state-${this.state.like} like-button player__button--icon`} onClick={this.clickLike.bind(this)} />
       </div>
     </div>
