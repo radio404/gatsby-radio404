@@ -18,24 +18,6 @@ class Player extends React.Component {
       muted:false,
       vote:false,
     };
-  }
-
-  componentDidMount() {
-    const props = this.props,
-      stream_src = props.radioking_mp3_stream_url
-        .replace("{id_radio}",props.radioking_radio_id)
-        .replace("{id_stream}",props.radioking_stream_hd_id)
-    ;
-    console.log(stream_src);
-    this.audio = new Howl({
-      src: [stream_src],
-      format: ['mp3'],
-      html5: true,
-      autoplay:true,
-      preload:false,
-      volume:1
-    });
-
     this.refreshNowPlaying();
   }
 
@@ -60,8 +42,28 @@ class Player extends React.Component {
       })
   }
 
+  getAudio(){
+    let {audio} = this;
+    if(!audio){
+      const props = this.props,
+        stream_src = props.radioking_mp3_stream_url
+          .replace("{id_radio}",props.radioking_radio_id)
+          .replace("{id_stream}",props.radioking_stream_hd_id)
+      ;
+      audio = this.audio = new Howl({
+        src: [stream_src],
+        format: ['mp3'],
+        html5: true,
+        autoplay:true,
+        preload:false,
+        volume:1
+      });
+    }
+    return audio;
+  }
+
   clickPlay(){
-    const audio = this.audio,
+    const audio = this.getAudio(),
           playing = audio.playing(),
           state = audio.state();
     if(state === 'unloaded'){
@@ -91,7 +93,7 @@ class Player extends React.Component {
 
   }
   clickMute(){
-    const audio = this.audio,
+    const audio = this.getAudio(),
     muted = this.state.muted;
     this.setState({
       muted:!muted

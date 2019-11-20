@@ -22,15 +22,15 @@ class PlayerLabel extends React.Component {
     return {
       wrapperWidth:wrapperWidth,
       spanWidth:spanWidth,
-      animationDuration:15*spanWidth/wrapperWidth,
+      animationDuration:8*spanWidth/100,
       requireAnimation:requireAnimation,
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     const dimensions = this.getDimensions(),
-      {requireAnimation} = dimensions;
-    if(this.state.requireAnimation !== requireAnimation){
+      {requireAnimation,spanWidth} = dimensions;
+    if(this.state.requireAnimation !== requireAnimation || this.state.spanWidth!==spanWidth){
       this.setState(dimensions);
     }
   }
@@ -43,7 +43,10 @@ class PlayerLabel extends React.Component {
             style={{
               animationDuration:`${this.state.animationDuration}s`,
             }}
-      >{props.children}</span>
+      >
+        <span>{props.children}</span>
+        <span>{props.children}</span>
+      </span>
       <span className={`player__label__fade`} />
     </div>)
   }
