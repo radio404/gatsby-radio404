@@ -1,4 +1,4 @@
-const getElementPosition = (element, withScroll=false) => {
+function getElementPosition(element, withScroll=false){
   let node = element,
       left = node.offsetLeft,
       top = node.offsetTop;
