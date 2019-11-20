@@ -7,6 +7,7 @@ class Player extends React.Component {
 
   constructor(props) {
     super(props);
+    const isSSR = typeof window === "undefined"
     this.state = {
       playing: false,
       artist: '',
@@ -18,7 +19,7 @@ class Player extends React.Component {
       muted:false,
       vote:false,
     };
-    this.refreshNowPlaying();
+    if(!isSSR) this.refreshNowPlaying();
   }
 
   refreshNowPlaying(){
