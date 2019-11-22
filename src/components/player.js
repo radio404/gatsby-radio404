@@ -104,7 +104,7 @@ class Player extends React.Component {
   }
   onVolumeDown(e){
     const self = this,
-      audio = self.audio,
+      audio = self.getAudio(),
       position = getElementPosition(e.currentTarget,true),
       isTouch = e.type !== 'mousedown',
       eventMove = isTouch ? 'touchmove':'mousemove',

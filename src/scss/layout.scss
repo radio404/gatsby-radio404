@@ -211,8 +211,8 @@ html { font-family: 'Inter', sans-serif; }
   white-space: nowrap;
   line-height: 22px;
   height:22px;
-  padding: 0 20px;
-  margin: 0 -20px;
+  padding: 0 16px;
+  margin: 0 -16px;
   position: relative;
   &__fade{
     position: absolute;
@@ -224,7 +224,7 @@ html { font-family: 'Inter', sans-serif; }
       content:'';
       display: block;
       position: absolute;
-      width:20px;
+      width:16px;
       height:22px;
       background:linear-gradient(0.25turn,#ffffff00, #ffffffff);
       right:0;
