@@ -1,0 +1,64 @@
+
+.site{
+  //overflow-x: hidden;
+  //min-height: 100vh;
+  &-main{
+    //@include container;
+  }
+}
+
+.main-header{
+  width:100%;
+  padding: 420px 0 0 ;
+  color:#fff;
+  &__content{
+      padding: 50px 0 0 320px;
+  }
+  &__title{
+    margin: 0;
+    font-size:rem(80);
+  }
+}
+.main-header,.main-content{
+  position: relative;
+}
+.split-words{
+  > span > span{
+    background: #000;
+    line-height: 0.9em;
+    display: inline-block;
+  }
+}
+
+.paper-and-dots{
+  position: absolute;
+  width:100%;
+  background-image:url(../images/paper-and-dots-bw.svg);
+  background-repeat: no-repeat;
+  background-position: center -50px;
+  background-size:1920px auto;
+  max-width:1920px;
+  height: 1080px;
+  top:0;
+  z-index: -1;
+}
+
+.main-content{
+  > .container{
+    display: flex;
+    > .col{
+      &-left{
+        width:300px;
+      }
+      &-main{
+        margin: auto 0;
+        width: 900px;
+        padding: 20px;
+        background: #fff;
+      }
+    }
+  }
+}
+p{
+  margin: 0;
+}

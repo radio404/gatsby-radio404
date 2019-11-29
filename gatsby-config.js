@@ -50,7 +50,9 @@ module.exports = {
           jwt_base_path: "/jwt-auth/v1/token"
         },
         excludedRoutes:[
-          '**/themes'
+          '**/themes',
+          '**/search',
+          '**/radioking/**'
         ]
       }
     },

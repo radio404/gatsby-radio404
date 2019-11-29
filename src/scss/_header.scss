@@ -1,0 +1,36 @@
+.site-header{
+  @include container;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  &__logo{
+    margin: -30px 0 0 37px;
+    position: relative;
+    img,&:before{
+      display: block;
+      border-radius: 100%;
+      position: relative;
+    }
+    &:before{
+      content:'';
+      width:700px;
+      height:700px;
+      background:black;
+      position: absolute;
+      transform: translate(-200px,-200px);
+    }
+    &,img{
+      width:300px;
+      height:300px;
+    }
+    img{
+      background:#fff;
+    }
+    span{
+      display: none;
+    }
+  }
+}
