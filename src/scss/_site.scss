@@ -18,6 +18,11 @@
     margin: 0;
     font-size:rem(80);
   }
+  @media screen and (max-width: 1200px){
+    &__content{
+      padding: 200px 20px 20px;
+    }
+  }
 }
 .main-header,.main-content{
   position: relative;
@@ -38,8 +43,11 @@
   background-position: center -50px;
   background-size:1920px auto;
   max-width:1920px;
-  height: 1080px;
+  height: 800px;
   top:0;
+  right: 0;
+  left: 0;
+  margin: auto;
   z-index: -1;
 }
 
@@ -55,6 +63,16 @@
         width: 900px;
         padding: 20px;
         background: #fff;
+      }
+    }
+  }
+  @media screen and (max-width: 1200px){
+    > .container{
+      display: block;
+      > .col{
+        &-left,&-main{
+          width:100%;
+        }
       }
     }
   }
