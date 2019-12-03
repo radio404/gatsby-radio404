@@ -1,5 +1,4 @@
 import React from "react"
-import SplitWords from "./split-words"
 
 const Main = ({children}) => {
 

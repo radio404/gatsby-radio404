@@ -54,7 +54,24 @@
     }
   }
 }
-
+@keyframes blink {
+  0%{
+  }
+  50% {
+    transform: scale(2);
+  }
+  100%{
+  }
+}
+@-webkit-keyframes blink {
+  0%{
+  }
+  50% {
+    -webkit-transform: scale(2);
+  }
+  100%{
+  }
+}
 .play-button{
   position: absolute;
   display: block;
@@ -64,14 +81,39 @@
   height:54px;
   transform: translate(-46px, -25px);
   color:#000;
+  &:before,&:after{
+    content:'•';
+    display: block;
+    line-height: 1.25em;
+    position: absolute;
+    transition: transform .2s, opacity .2s;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+  }
   &:before{
     content: "\25b6";
-    margin: 1px 0 0 8px;
+    margin: 3px 0 0 8px;
   }
-  &.playing{
+  &:after{
+    transform: scale(0);
+    opacity: 0;
+  }
+  &--loading, &--unloaded{
+    &:before{
+      transform:scale(0);
+    }
+    &:after{
+      transform: scale(1);
+      opacity: 1;
+      animation: blink 1s cubic-bezier(0.18, 0.89, 0.32, 1.28) infinite;
+    }
+  }
+  &--playing{
     &:before{
       content: "\23f8";
-      margin: 1px 0 0;
+      margin: 3px 0 0;
     }
   }
 }

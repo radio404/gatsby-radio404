@@ -9,7 +9,6 @@ import React from "react"
 import PropTypes from "prop-types"
 
 import Header from "./header"
-import Main from "./main"
 import "../fonts/Inter/inter.css"
 import "../fonts/icomoon/style.css"
 import "../scss/layout.scss"

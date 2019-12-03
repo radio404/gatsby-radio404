@@ -9,6 +9,7 @@ class Player extends React.Component {
     super(props);
     const isSSR = typeof window === "undefined"
     this.state = {
+      loaded: 'never',
       playing: false,
       artist: '',
       track: '…',
@@ -41,17 +42,23 @@ class Player extends React.Component {
           vote:vote,
         });
       })
+      .catch(err=>{
+        self.setState({
+          title:err.toString(),
+        });
+      })
   }
 
   getAudio(){
-    let {audio} = this;
+    const self = this;
+    let {audio} = self;
     if(!audio){
-      const props = this.props,
+      const props = self.props,
         stream_src = props.radioking_mp3_stream_url
           .replace("{id_radio}",props.radioking_radio_id)
           .replace("{id_stream}",props.radioking_stream_hd_id)
       ;
-      audio = this.audio = new Howl({
+      audio = self.audio = new Howl({
         src: [stream_src],
         format: ['mp3'],
         html5: true,
@@ -59,8 +66,38 @@ class Player extends React.Component {
         preload:false,
         volume:1
       });
+      [
+        'load',
+        'loaderror',
+        'playerror',
+        'play',
+        'end',
+        'pause',
+        'stop',
+        'mute',
+        'volume',
+        'rate',
+        'seek',
+        'fade',
+        'unlock'
+      ].forEach((eventName)=>{
+        audio.on(eventName,self.onAudioEvent.bind(self));
+      })
+      self.onAudioEvent();
     }
     return audio;
+  }
+
+  onAudioEvent(){
+    const self = this;
+    const {audio} = this,
+          playing = audio.playing(),
+          state = audio.state();
+    self.setState({
+      loaded:state,
+      playing:playing
+    })
+    console.log(state,playing)
   }
 
   clickPlay(){
@@ -70,9 +107,9 @@ class Player extends React.Component {
     if(state === 'unloaded'){
         audio.load();
     }
-    this.setState({
+    /*this.setState({
       playing:!playing
-    })
+    })*/
     if(playing){
       audio.pause();
     }else{
@@ -141,7 +178,7 @@ class Player extends React.Component {
     return (<div className="player">
 
       <div className="player__buttons">
-        <button type="button" className={`${this.state.playing?'playing':''} play-button player__button--icon`} onClick={this.clickPlay.bind(this)} />
+        <button type="button" className={`play-button--${this.state.playing?'playing':'paused'} play-button--${this.state.loaded} play-button player__button--icon`} onClick={this.clickPlay.bind(this)} />
         <button type="button" className={`${this.state.muted?'muted':''} mute-button player__button--icon`} onClick={this.clickMute.bind(this)} />
       </div>
 
