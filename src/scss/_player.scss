@@ -140,7 +140,31 @@
     }
   }
 }
-
+.like-buttons{
+  position: absolute;
+  display: block;
+  top:0;
+  right:11px;
+  bottom:0;
+  margin: auto;
+  width:54px;
+  height:54px;
+  &__alts{
+    position: absolute;
+    width:160px;
+    height:160px;
+    background: #fff;
+    border-radius: 100%;
+    left: -54px;
+    top: -54px;
+    transition: transform .25s .25s ease-in;
+    transform:scale(0);
+  }
+  &:hover &__alts{
+    transition: transform .25s ease-out;
+    transform:scale(1);
+  }
+}
 .like-button{
   position: absolute;
   display: block;
@@ -152,13 +176,49 @@
   transform: rotate(-8deg);
   color:#000;
   top:0;
-  right:11px;
-  bottom:0;
-  margin: auto;
+  left:0;
   text-align: center;
   &:before{
     content: "\2665";
     margin: 1px 0 0;
+    transition: transform .5s;
+  }
+  &:hover{
+    img, &:before{
+      transform:scale(1.2);
+    }
+  }
+  &--alt{
+    margin:auto;
+    bottom:0;
+    right:0;
+    &:before{
+      content:none;
+    }
+    img{
+      font-size:.5em;
+      position:absolute;
+      height: 1em;
+      width: 1em;
+      bottom: 0;
+      left: 0;
+      top: 0;
+      right: 0;
+      margin: auto;
+      transition: transform .5s;
+    }
+    $total : 7;
+    @for $i from 0 to 8{
+      &:nth-child(#{$i}n){
+        $angle-norm : $i/($total);
+        $angle-rad : $PI*2*$angle-norm;
+        $angle-deg : 360*$angle-norm;
+
+        $x : sin($angle-rad) * 54px;
+        $y : cos($angle-rad) * 54px;
+        transform: translate($x,$y) rotate(#{$angle-deg*0 - 8}deg);
+      }
+    }
   }
 }
 

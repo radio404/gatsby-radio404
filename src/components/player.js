@@ -2,6 +2,7 @@ import React from "react"
 import {Howl} from "howler"
 import PlayerLabel from "./player-label";
 import getElementPosition from "../utils/get-element-position";
+import twemoji from "twemoji";
 
 class Player extends React.Component {
 
@@ -97,7 +98,6 @@ class Player extends React.Component {
       loaded:state,
       playing:playing
     })
-    console.log(state,playing)
   }
 
   clickPlay(){
@@ -107,9 +107,6 @@ class Player extends React.Component {
     if(state === 'unloaded'){
         audio.load();
     }
-    /*this.setState({
-      playing:!playing
-    })*/
     if(playing){
       audio.pause();
     }else{
@@ -195,7 +192,18 @@ class Player extends React.Component {
       <div className="now-playing">
         <PlayerLabel className={`now-playing__track`} title={this.state.track}>{this.state.track}</PlayerLabel>
         <PlayerLabel className={`now-playing__artist`} title={this.state.artist}>{this.state.artist}</PlayerLabel>
-        <button type="button" disabled={this.state.vote?'disabled':false} className={`like-state-${this.state.like} like-button player__button--icon`} onClick={this.clickLike.bind(this)} />
+        <div className="like-buttons">
+          <div className="like-buttons__alts">
+            {['😀','👍','🤘','🤟','💩','🤬','🙉'].map((emoji,k)=>(
+              <button dangerouslySetInnerHTML={{__html: twemoji.parse(emoji, {
+                folder: 'svg',
+                ext: '.svg'
+              })}} key={k} type="button" disabled={this.state.vote?'disabled':false} className={`like-state-${this.state.like} like-button--alt like-button player__button--icon`} onClick={this.clickLike.bind(this)} value={emoji} >
+              </button>
+            ))}
+          </div>
+          <button type="button" disabled={this.state.vote?'disabled':false} className={`like-state-${this.state.like} like-button like-button--default player__button--icon`} onClick={this.clickLike.bind(this)} value="❤️" />
+        </div>
       </div>
     </div>
   )}
