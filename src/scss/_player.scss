@@ -19,7 +19,7 @@
     &:before{
       display: block;
       position: relative;
-      font-family: 'icomoon';
+      font-family: $icomoon-font-family;
       line-height: 1em;
     }
   }
@@ -93,7 +93,7 @@
     right:0;
   }
   &:before{
-    content: "\25b6";
+    content: $i404-lecture;
     margin: 3px 0 0 8px;
   }
   &:after{
@@ -112,7 +112,7 @@
   }
   &--playing{
     &:before{
-      content: "\23f8";
+      content: $i404-pause;
       margin: 3px 0 0;
     }
   }
@@ -130,13 +130,13 @@
   background: none;
 
   &:before {
-    content: "\1f514";
+    content: $i404-volume;
     margin: 1px 0 0;
   }
 
   &.muted {
     &:before {
-      content: "\1f515";
+      content: $i404-Muet;
     }
   }
 }
@@ -179,7 +179,7 @@
   left:0;
   text-align: center;
   &:before{
-    content: "\2665";
+    content: $i404-coeur;
     margin: 1px 0 0;
     transition: transform .5s;
   }
