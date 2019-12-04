@@ -6,7 +6,7 @@ import SEO from "../components/seo"
 
 const PostPage = ({data}) => (
   <Layout>
-    <SEO title={data.wordpressPage.title||''} />
+    <SEO title={data.wordpressPost.title||''} />
     <TemplateDefault title={data.wordpressPost.title||''} subtitle={data.wordpressPost.subtitle||''}>
       <div className={`wp-content`} dangerouslySetInnerHTML={{ __html: data.wordpressPost.content}} />
     </TemplateDefault>
