@@ -1,18 +1,20 @@
 import React from "react"
 import SplitWords from "../split-words"
 
-const TemplateDefault = props => (
+const TemplateDefault = ({title,subtitle,children}) => (
   <div className={'site-main'}>
      <header className={'main-header'}>
             <div className="paper-and-dots" />
             <div className="main-header__content container">
                 <h1 className="main-header__title">
                     <div>
-                        <SplitWords>{props.title}</SplitWords>
+                        <SplitWords>{title}</SplitWords>
                     </div>
+                  {!!subtitle &&
                     <div>
-                        <SplitWords>{props.subtitle}</SplitWords>
+                        <SplitWords>{subtitle}</SplitWords>
                     </div>
+                  }
                 </h1>
             </div>
         </header>
@@ -20,7 +22,7 @@ const TemplateDefault = props => (
             <div className="container">
                 <div className="col-left">
                 </div>
-                <div className="col-main">{props.children}</div>
+                <div className="col-main">{children}</div>
             </div>
         </main>
     </div>
