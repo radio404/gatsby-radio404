@@ -1,0 +1,8 @@
+.page{
+  &--dev-404-page{
+    .site-main{
+      @include container;
+      padding: calc(100vh - 300px) 0 0;
+    }
+  }
+}

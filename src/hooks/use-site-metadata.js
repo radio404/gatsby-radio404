@@ -1,6 +1,6 @@
 import { useStaticQuery, graphql } from "gatsby"
 export const useSiteMetadata = () => {
-  const { site, allWordpressSiteMetadata, allWordpressAcfOptions } = useStaticQuery(
+  const { site, allWordpressSiteMetadata, allWordpressAcfOptions, allSitePage } = useStaticQuery(
     graphql`
         query SiteMetaData {
             site {
@@ -29,6 +29,13 @@ export const useSiteMetadata = () => {
                         }
                     }
                 }
+            },
+            allSitePage {
+                edges {
+                    node {
+                        path
+                    }
+                }
             }
         }
     `
@@ -37,7 +44,10 @@ export const useSiteMetadata = () => {
   const meta = Object.assign(
     site.siteMetadata,
     allWordpressAcfOptions.edges[0].node.options_radio,
-    allWordpressSiteMetadata.edges[0].node
+    allWordpressSiteMetadata.edges[0].node,
+    {
+      pages:allSitePage.edges
+    }
   )
   return meta
 }

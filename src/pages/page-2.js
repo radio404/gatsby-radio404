@@ -1,16 +1,19 @@
 import React from "react"
 import { Link } from "gatsby"
 
-import Layout from "../components/layout"
 import SEO from "../components/seo"
+import TemplateDefault from "../components/page-templates/template-default";
 
 const SecondPage = () => (
-  <Layout>
+  <>
     <SEO title="Page two" />
-    <h1>Hi from the second page</h1>
-    <p>Welcome to page 2</p>
-    <Link to="/">Go back to the homepage</Link>
-  </Layout>
+    <TemplateDefault title={`Wow people,`} subtitle={`Welcome on the second page`}>
+      <h1>Hi from the second page</h1>
+      <p>Welcome to page 2</p>
+      <Link to="/">Go back to the homepage</Link>
+    </TemplateDefault>
+
+  </>
 )
 
 export default SecondPage

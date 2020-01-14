@@ -9,19 +9,20 @@ import React from "react"
 import PropTypes from "prop-types"
 
 import Header from "./header"
+import Footer from "./footer"
 import "../fonts/Inter/inter.css"
 import "../fonts/radio404/style.css"
 import "../scss/layout.scss"
 
-const Layout = ({ children }) => {
-
+const Layout = ({ children, pageContext: { locale }, pageResources:{page} }) => {
   return (
     <>
-      <div className="site">
+      <div className={`site page--${page.path.replace(/\//g,'')}`}>
         <Header />
-        {children}
-        <footer>
-        </footer>
+        <div className={`site-main`}>
+          {children}
+        </div>
+        <Footer />
       </div>
     </>
   )
@@ -31,4 +32,4 @@ Layout.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export default Layout
+export { Layout }

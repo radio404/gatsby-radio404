@@ -2,7 +2,7 @@ import React from "react"
 import SplitWords from "../split-words"
 
 const TemplateDefault = ({title,subtitle,children}) => (
-  <div className={'site-main'}>
+  <>
      <header className={'main-header'}>
             <div className="paper-and-dots" />
             <div className="main-header__content container">
@@ -25,7 +25,7 @@ const TemplateDefault = ({title,subtitle,children}) => (
                 <div className="col-main">{children}</div>
             </div>
         </main>
-    </div>
+    </>
 )
 
 
