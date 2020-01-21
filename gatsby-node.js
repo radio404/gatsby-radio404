@@ -42,7 +42,6 @@ exports.createPages = async ({ graphql, actions }) => {
         pageTemplate = path.resolve(`./src/templates/page.js`);
 
   const getPathFromWpUrl = (wpUrl)=>{
-      console.log(result.data.site.siteMetadata.wp_url+'/',wpUrl)
       return wpUrl.replace(result.data.site.siteMetadata.wp_url+'/','');
   }
 
