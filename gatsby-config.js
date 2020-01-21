@@ -7,6 +7,7 @@ module.exports = {
     title: `radio404`,
     description: `radio404 found!`,
     author: `Arthur Violy`,
+    wp_url: `${env.WP_APP_PROTOCOL}://${env.WP_APP_BASE_URL}`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

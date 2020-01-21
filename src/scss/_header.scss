@@ -38,3 +38,23 @@
     }
   }
 }
+.menu-primary{
+  position: absolute;
+  left:600px;
+  top:0;
+  ul, li{
+    margin: 0;
+    padding: 0;
+  }
+  li{
+    list-style:none;
+    margin: 0 0 rem(10);
+  }
+  a{
+    background: #000;
+    color:#fff;
+    padding: rem(16);
+    display: block;
+    text-decoration: none;
+  }
+}

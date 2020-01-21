@@ -6,6 +6,9 @@ export const useSiteMetadata = () => {
             site {
                 siteMetadata {
                     title
+                    description
+                    author
+                    wp_url
                 }
             }
             allWordpressSiteMetadata {

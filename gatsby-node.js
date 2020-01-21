@@ -13,11 +13,17 @@ exports.createPages = async ({ graphql, actions }) => {
   // query content for WordPress posts
   const result = await graphql(`
     query {
+      site {
+        siteMetadata{
+          wp_url
+        }
+      }
       allWordpressPost {
         edges {
           node {
             id
             slug
+            link
           }
         }
       }
@@ -26,6 +32,7 @@ exports.createPages = async ({ graphql, actions }) => {
           node {
             id
             slug
+            link
           }
         }
       }
@@ -33,11 +40,18 @@ exports.createPages = async ({ graphql, actions }) => {
   `)
   const postTemplate = path.resolve(`./src/templates/post.js`),
         pageTemplate = path.resolve(`./src/templates/page.js`);
+
+  const getPathFromWpUrl = (wpUrl)=>{
+      console.log(result.data.site.siteMetadata.wp_url+'/',wpUrl)
+      return wpUrl.replace(result.data.site.siteMetadata.wp_url+'/','');
+  }
+
   result.data.allWordpressPost.edges.forEach(edge => {
-    console.log(edge.node.slug)
+    const path = getPathFromWpUrl(edge.node.link);
+    console.log(edge.node.slug,path)
     createPage({
       // will be the url for the page
-      path: edge.node.slug,
+      path: getPathFromWpUrl(edge.node.link),
       // specify the component template of your choice
       component: slash(postTemplate),
       // In the ^template's GraphQL query, 'id' will be available
@@ -50,10 +64,11 @@ exports.createPages = async ({ graphql, actions }) => {
   })
 
   result.data.allWordpressPage.edges.forEach(edge => {
-    console.log(edge.node.slug)
+    const path = getPathFromWpUrl(edge.node.link);
+    if(path==='') return // ignore home page
     createPage({
       // will be the url for the page
-      path: edge.node.slug,
+      path: path,
       // specify the component template of your choice
       component: slash(pageTemplate),
       // In the ^template's GraphQL query, 'id' will be available
