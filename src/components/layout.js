@@ -14,10 +14,10 @@ import "../fonts/Inter/inter.css"
 import "../fonts/radio404/style.css"
 import "../scss/layout.scss"
 
-const Layout = ({ children, pageContext: { locale }, pageResources:{page} }) => {
+const Layout = ({ children }) => {
   return (
     <>
-      <div className={`site page--${page.path.replace(/\//g,'')}`}>
+      <div className={`site`}>
         <Header />
         <div className={`site-main`}>
           {children}
