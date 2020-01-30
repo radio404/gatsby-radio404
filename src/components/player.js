@@ -1,7 +1,6 @@
 import React from "react"
 import {Howl} from "howler"
 import PlayerLabel from "./player-label";
-import getElementPosition from "../utils/get-element-position";
 import twemoji from "twemoji";
 
 class Player extends React.Component {
@@ -65,7 +64,7 @@ class Player extends React.Component {
         html5: true,
         autoplay:true,
         preload:false,
-        volume:1
+        volume:self.state.volume,
       });
       [
         'load',
@@ -84,6 +83,8 @@ class Player extends React.Component {
       ].forEach((eventName)=>{
         audio.on(eventName,self.onAudioEvent.bind(self));
       })
+      audio.mute(self.state.muted)
+
       self.onAudioEvent();
     }
     return audio;
@@ -108,8 +109,9 @@ class Player extends React.Component {
         audio.load();
     }
     if(playing){
-      audio.pause();
+      audio.stop();
     }else{
+      this.setState({loaded:'unloaded'});
       audio.play();
     }
     console.log('clickPlay',audio,state,playing,this.state.playing);
@@ -128,47 +130,24 @@ class Player extends React.Component {
 
   }
   clickMute(){
-    const audio = this.getAudio(),
+    const {audio} = this,
     muted = this.state.muted;
     this.setState({
       muted:!muted
     })
-    audio.mute(!muted);
+    if(audio){
+      audio.mute(!muted);
+    }
     console.log('clickMute',!muted);
   }
-  onVolumeDown(e){
+  onChangeVolume(e){
     const self = this,
-      audio = self.getAudio(),
-      position = getElementPosition(e.currentTarget,true),
-      isTouch = e.type !== 'mousedown',
-      eventMove = isTouch ? 'touchmove':'mousemove',
-      eventUp = isTouch ? 'touchend':'mouseup';
-    let volume;
-
-    function getVolumeFromXY(clientX,clientY){
-      const relY = position.top-clientY;
-      let v = 1-relY/-100;
-      return Math.max(0,Math.min(v,1));
+      volume = e.currentTarget.value,
+      {audio} = self;
+    if(audio){
+      audio.volume(volume);
     }
-
-    function onMouseMove(e){
-      e.preventDefault();
-      e.stopPropagation();
-      const target = isTouch ? e.touches[0] :e;
-      volume = getVolumeFromXY(target.clientX,target.clientY);
-      if(volume>=0 && volume<=1){
-        audio.volume(volume);
-        self.setState({volume:volume});
-      }
-    }
-    function onMouseUp(e){
-      //console.log('onMouseUp');
-      window.removeEventListener(eventMove,onMouseMove);
-      window.removeEventListener(eventUp,onMouseUp);
-    }
-    window.addEventListener(eventMove,onMouseMove)
-    window.addEventListener(eventUp,onMouseUp)
-    onMouseMove(e);
+    self.setState({volume:volume});
   }
 
   render(){
@@ -180,9 +159,8 @@ class Player extends React.Component {
       </div>
 
       <div className="player__volume">
-        <div className="player__volume__zone" onMouseDown={this.onVolumeDown.bind(this)} onTouchStart={this.onVolumeDown.bind(this)}>
-          <div className="player__volume__value" style={{height:`${100*Math.round(this.state.volume*13)/13}%`}}/>
-        </div>
+        <div className="player__volume__value" style={{height:`${100*Math.round(this.state.volume*13)/13}%`}}/>
+        <input className="player__volume__zone" type="range" min="0" max="1" step="0.01" onChange={this.onChangeVolume.bind(this)} value={this.state.audio} />
       </div>
 
       <div className="cover">

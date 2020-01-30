@@ -8,7 +8,7 @@ const LinkAuto = (props) => {
 
   const internalRegExp = new RegExp(`^${wp_url}/`),
         isInternal = internalRegExp.test(to),
-        autoTo = isInternal ? to.replace(wp_url+'/','') :to;
+        autoTo = isInternal ? '/'+to.replace(wp_url+'/','') :to;
   if(isInternal) {
     return (<Link {...props} to={autoTo} >{children}</Link>)
   } else{

@@ -29,14 +29,18 @@
     top:-36px;
     border-left:solid 4px #fff;
     transform: rotate(26deg);
+    width:20px;
+    height:100px;
     &, &__zone{
       position: absolute;
-      width:20px;
-      height:100px;
     }
     &__zone{
       left:0;
-      left:-4px;
+      background: red;
+      transform: rotate(270deg) translate(-40px,-42px);
+      width:100px;
+      height:20px;
+      opacity: 0;
     }
     &:before,&__value{
       pointer-events: none;
