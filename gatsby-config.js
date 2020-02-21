@@ -53,7 +53,7 @@ module.exports = {
         excludedRoutes:[
           '**/themes',
           '**/search',
-          '**/radioking/**'
+          '**/radio404/**'
         ]
       }
     },

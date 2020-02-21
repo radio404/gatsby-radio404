@@ -1,5 +1,8 @@
 import React from "react"
 import SplitWords from "../split-words"
+import moment from "moment";
+import momentFR from "moment/locale/fr";
+moment.locale('fr',momentFR);
 
 const TemplateDefault = ({title,subtitle,children}) => (
   <>
